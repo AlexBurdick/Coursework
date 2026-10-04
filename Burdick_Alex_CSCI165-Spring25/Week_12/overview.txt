@@ -1,0 +1,52 @@
+This week we will explore the idea of abstraction in object oriented programming. There are two main structures in java that allow abstraction in an OOD application
+	~ The abstract class
+	~ The interface
+
+Lab is due: Monday 4/28/2025 by 8:30 am
+
+An abstract class in object-oriented programming (OOP) is a class that cannot be instantiated on its own and is designed to serve as a blueprint or template for other classes. Abstract classes are used to define common characteristics and behaviors that can be shared among multiple related classes.
+
+Here are the key characteristics and features of abstract classes:
+===================================================
+	~ Cannot be Instantiated: Abstract classes cannot be directly instantiated, meaning you cannot create objects of an abstract class. Instead, abstract classes 						are meant to be subclassed or extended by other classes.
+
+	~ May Contain Abstract Methods: An abstract class may contain one or more abstract methods. An abstract method is a method that is declared in the abstract class but does not have an implementation. Instead, subclasses of the abstract class must provide implementations for these abstract methods.
+
+	~ Can Contain Concrete Methods: In addition to abstract methods, an abstract class may also contain concrete (non-abstract) methods. Concrete methods in an abstract class provide default behavior that can be inherited by subclasses, but they are not required to be overridden.
+
+	~ May Contain Member Variables: Abstract classes may contain member variables, also known as fields or properties, which can be inherited by subclasses. These member variables can be private, protected, or public, depending on the desired level of encapsulation.
+
+	~ Used for Polymorphism: Abstract classes are often used to implement polymorphism, where objects of different classes can be treated as objects of the abstract class. This allows for flexibility in design and enables code reuse.
+
+	~ Subclassing and Inheritance: Subclasses of an abstract class must provide concrete implementations for all abstract methods defined in the abstract class. Failure to do so will result in a compilation error.
+	
+Week_12
+├── code
+│   ├── abstract_sale_hierarchy
+│   │   ├── CreditCardSale.java
+│   │   ├── DiscountSale.java
+│   │   ├── LateBindingDemo.java
+│   │   ├── sale.drawio
+│   │   └── Sale.java
+│   ├── comparable
+│   │   ├── Demo.java
+│   │   └── Student.java
+│   └── shapes_two_ways
+│       ├── abstract_class
+│       │   ├── Circle.java
+│       │   ├── Rectangle.java
+│       │   └── Shape.java
+│       └── interface
+│           ├── Circle.java
+│           ├── GeometricObject.java
+│           ├── Rectangle.java
+│           ├── Resizable.java
+│           └── ShapeDemo.java
+├── lab
+│   └── CSCI165.Abstract.Classes.Lab.pdf
+└── reading
+    └── Inheritance_Abstract_Classes.pdf
+
+9 directories, 17 files
+
+

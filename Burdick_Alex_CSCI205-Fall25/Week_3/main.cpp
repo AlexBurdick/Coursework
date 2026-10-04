@@ -1,0 +1,268 @@
+/************************************************************************
+ * @file  main.cpp
+ * 
+ * @brief The main function for the analysis homework project. This file
+ * contains the main function that calls various analysis functions and
+ * writes their results to text files.
+ * 
+ * Instructions: Compile and run the C++ file. The program will prompt
+ * the user to enter an upper limit for the experiments. It will then
+ * run a series of experiments, each corresponding to a different time
+ * complexity analysis, and write the results to separate text files. After
+ * running the experiments, it will call a Python script to generate
+ * graphs based on the results. The legend in the graphs is clickable to
+ * hide/show lines.
+ ************************************************************************/
+
+#include <iostream>
+#include <fstream>
+#include <cmath>
+
+using namespace std;
+
+// Function prototypes
+int getMiddleElement(int* arr, int size, unsigned int& counter);
+int findRange(int* arr, int size, unsigned int& counter);
+unsigned long powerOfN(int base, int exponent, unsigned int& counter);
+int findMaxInMatrix(int** matrix, int N, unsigned int& counter);
+unsigned long long factorial(unsigned int n, unsigned int& counter);
+bool isPrime(unsigned int N, unsigned int& counter);
+bool hasDuplicates(int* arr, int size, unsigned int& counter);
+
+/**
+ * @brief Main function to run the analysis experiments and write results to files.
+ * @return success or failure code 
+ */
+int main() {
+    // Get the limit for the experiments from user input
+    unsigned int LIMIT = 100; /**< The number of times to run the experiments. */
+    cout << "Enter the upper limit for the experiments (e.g., 100): ";
+    // Test if input is valid
+    while (!(cin >> LIMIT)){
+        cout << "Invalid input. Please enter a positive integer: ";
+        cin.clear(); // Clear the error flag
+        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
+    }
+    
+    srand(static_cast<unsigned int>(time(0))); // Seed the random number generator
+
+    ofstream constantTimeFile("Middle.txt");
+    ofstream linearTimeFile("Range.txt");
+    ofstream linearExpFile("PowerofN.txt");
+    ofstream quadraticTimeFile("Matrix.txt");
+    ofstream factorialFile("Factorial.txt");
+    ofstream primeFile("Prime.txt");
+    ofstream duplicatesFile("Duplicates.txt");  
+
+    cout<< "Running experiments, this may take a few minutes..." << "\n";
+    for(int i = 1; i < LIMIT; i++) {
+        // 1. Middle - Constant
+        unsigned int counter {0}; // Counter for operations
+        int* arr = new int[i]; // Allocate an array of size i
+        for(int j = 0; j < i; j++) {
+            arr[j] = rand() % LIMIT; // Fill the array with random integers
+        }
+        int result = getMiddleElement(arr, i, counter);
+        constantTimeFile << i << " " << counter << "\n";
+
+        // 2. Range - Linear
+        counter = 0;
+        result = findRange(arr, i, counter);
+        linearTimeFile << i << " " << counter << "\n";
+
+        // 3. Power of N - Linear exponential
+        counter = 0;
+        result = powerOfN(2, i, counter);
+        linearExpFile << i << " " << counter << "\n";
+
+        // 4. Matrix - quadratic
+        counter = 0;
+        int** matrix = new int*[i];
+        for(int j = 0; j < i; j++) {
+            matrix[j] = new int[i];
+        }
+        for(int r = 0; r < i; r++) {
+            for(int c = 0; c < i; c++) {
+                matrix[r][c] = rand() % 100; // Fill the matrix with random integers
+            }
+        }
+        result = findMaxInMatrix(matrix, i, counter);
+        quadraticTimeFile << i << " " << counter << "\n";
+        for(int j = 0; j < i; j++){
+            delete[] matrix[j];
+        }
+        delete[] matrix;
+
+        // 5. Factorial - linear
+        counter = 0;
+        unsigned long long fact = factorial(i, counter);
+        factorialFile << i << " " << counter << "\n";
+
+        // 6. Prime - linear (or better?)
+        counter = 0;
+        bool prime = isPrime(i, counter);
+        primeFile << i << " " << counter << "\n";
+
+        // 7. Duplicates - quadratic
+        counter = 0;
+        bool duplicates = hasDuplicates(arr, i, counter);
+        duplicatesFile << i << " " << counter << "\n";
+        delete[] arr;
+    }
+    
+    // Flush the output stream to ensure all data is written and files closed
+    constantTimeFile    << flush; // Forces the data to be written immediately
+    linearTimeFile      << flush; // Writing to files once at the end to reduce 
+    linearExpFile       << flush; // I/O overhead during the experiments
+    quadraticTimeFile   << flush;
+    factorialFile       << flush;
+    primeFile           << flush;
+    duplicatesFile      << flush;
+
+    // Call the grapher script to generate graphs
+    system("python grapher.py");
+    return 0;
+}
+
+/** 
+ * @brief Finds the middle element of an array.
+ * 
+ * @param arr The array of integers.
+ * @return int The middle element of the array.
+ *
+ * 1. Constant Time – Array Middle Element: Write a C++ function that takes an 
+ * array of integers and returns the middle element. Analyze the time complexity 
+ * and discuss why it is O(1). Ensure that the plot aligns with constant time.
+ */
+int getMiddleElement(int* arr, int size, unsigned int& counter) {
+    counter++; // Increment counter for the operation
+    return arr[size / 2]; // Return the middle element
+}
+
+/** 
+ * @brief Finds the range of elements in an array.
+ * 
+ * @param arr The array of integers.
+ * @param size The size of the array.
+ * @return int The range of the array (max - min).
+ * 
+ * 2. Linear Time – Array Range: Implement a function to find the range of all 
+ * elements in an array of integers using a loop. Analyze its time complexity 
+ * and discuss why it is O(n). Ensure that the plot aligns with linear time.
+ * 
+ * Function generated by Copilot 09/10/2025, edited by Alex Burdick
+ */
+int findRange(int* arr, int size, unsigned int& counter) {
+    if (size <= 0) return 0; // Handle empty array case
+
+    int min = arr[0]; /**< Holder for the smallest number. */
+    int max = arr[0]; /**< Holder for the largetst number */
+
+    for (int i = 1; i < size; i++) {        // Loop through the array and set 
+        if (arr[i] < min) { min = arr[i]; } // the min and max, starting at 1
+        if (arr[i] > max) { max = arr[i]; } // because we already set min and 
+        counter++;                          // max to arr[0]
+    }                                       
+
+    return max - min; // Return the range
+}
+
+/**
+ * @brief Calculates the power of a number using iterative multiplication.
+ * 
+ * 3. Linear Time - Exponential Function: Implement an iterative function to 
+ * calculate the result of raising a number to a power (e.g., x^n). Do not use 
+ * any library exponentiation, use brute force iterative multiplication. 
+ * Analyze and discuss its time complexity. Ensure that the plot aligns with 
+ * your conclusions.
+ */
+unsigned long powerOfN(int base, int exponent, unsigned int& counter) {
+    unsigned long power = base; /**< Holds the power to return */
+    for (int i = 2; i <= exponent; i++) { // Start at 2, we already have base^1
+        power *= base;
+        counter++;
+    }
+    return power;
+}
+
+/** 
+ * @brief Finds the maximum element in a square matrix.
+ * 
+ * 4. Quadratic Time – Square Matrix Max Element: Write a function to find the 
+ * maximum element in a square matrix (number of rows == number of columns) of 
+ * integers. The function should accept a reference to the matrix and the size N.
+ * N will represent both the number of columns and number of rows. Analyze its 
+ * time complexity, and discuss in detail why it is O(n^2). Ensure that the plot 
+ * aligns with quadratic time.
+ * 
+ * Function generated by Copilot 09/10/2025, edited by Alex Burdick
+ */
+int findMaxInMatrix(int** matrix, int N, unsigned int& counter) {
+    int maxElement = matrix[0][0]; // Assume the first element is the maximum
+    for (int i = 0; i < N; i++) { // Loop through rows
+        for (int j = 0; j < N; j++) { // Loop through columns
+            if (matrix[i][j] > maxElement) {
+                maxElement = matrix[i][j]; // Update max if current element is greater
+            }
+            counter++; // Increment counter for the operation
+        }
+    }
+    return maxElement; // Return the maximum element found
+}
+
+/** 
+ * @brief Calculates the factorial of a number iteratively.
+ * 
+ * 5. Linear Time - Factorials: Write an iterative function to calculate the 
+ * factorials of a number, not including 1 and itself. It must be O(n). Analyze 
+ * its time complexity and discuss why it is O(n). Ensure that the plot aligns 
+ * with linear time.
+ */
+unsigned long long factorial(unsigned int n, unsigned int& counter) {
+    unsigned long result = 1; /**< Holds the factorial to return */    
+    while (n > 1) { // While n is greater than 1
+        result *= n; // Multiply result by n
+        n--; // Decrement n
+        counter++; // Increment counter for the operation
+    }
+    return result; 
+}
+
+/** 
+ * @brief Determines if a number is prime using trial division up to the square root of N.
+ * 
+ * 6. Linear (or Better?) - Prime Numbers: Using the concept of “trial division” 
+ * write a function that implements an iterative solution to determine if any 
+ * number N is prime. Analyze and discuss the time complexity of this approach. 
+ * Implement the strategy that cuts trial division off at the square root of N. 
+ * Analyze and discuss the time complexity of this approach. Graph both.
+ */
+bool isPrime(unsigned int N, unsigned int& counter) {
+    for (int i = 2; i <= std::sqrt(N); i++) { // Check divisors up to sqrt(N)
+        counter++; // Increment counter for the operation
+        if (N % i == 0) {
+            return false; // Found a factor, not prime
+        }
+    }
+    return true; // No factors found, it is prime
+}
+
+/** 
+ * @brief Checks if an array contains any duplicate items.
+ * 
+ * 7. Quadratic Time – Array has duplicates?: Write a boolean function that 
+ * determines if an arraycontains any duplicate items. Provide a detailed 
+ * analysis of the time complexity and discuss why it is O(n^2). Ensure that the 
+ * plot aligns with quadratic time.
+ */
+bool hasDuplicates(int* arr, int size, unsigned int& counter) {
+    for (int i = 0; i < size; i++) {
+        for (int j = i + 1; j < size; j++) {
+            counter++; // Increment counter for the operation
+            if (arr[i] == arr[j]) {
+                return true; // Found a duplicate
+            }
+        }
+    }
+    return false; // No duplicates found
+}

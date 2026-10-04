@@ -1,0 +1,7 @@
+1. Normally reading an unknown number of words would be a problem, but using the get.nextLine method allows us to get all of the words in the line. As long as we know the text we want is on one line, we don't need to know how many words it is.
+
+2. I found date time objects by just looking at the documentation on them and importing them. Java allows you to format the date and time in any order you want, with any delimiters you want.
+
+3. A hashmap might be more efficient with formatting the invoice. Using arrays meant that I had to pass in all of the variables in all of the arrays, which could be too cumbersome with more text.
+
+4. I used the whitespace formatting options to ensure everything was aligned where it should be.

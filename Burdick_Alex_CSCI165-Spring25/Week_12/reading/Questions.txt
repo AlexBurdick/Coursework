@@ -1,0 +1,2 @@
+
+4. What's the difference between JRE and JDK?

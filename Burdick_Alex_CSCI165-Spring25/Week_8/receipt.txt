@@ -1,0 +1,14 @@
+**RECEIPT**
+Invoice #: UNUN163832
+Date: March 29, 2025
+
+Item                   Qty   Price |   Total
+============================================
+Pork Sandwich            1    6.34 |    6.34
+Apple - Royal Gala       1    8.75 |    8.75
+Beer                     1    9.00 |    9.00
+Lettuce - Arugula        1    6.25 |    6.25
+============================================
+Subtotal:  30.34
+Sales tax: 1.82
+Total:     32.16

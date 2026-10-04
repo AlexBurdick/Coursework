@@ -1,0 +1,95 @@
+This week we will learn about the exception handling model in Java
+
+We will focus on
+
+	~ Exception classes
+	~ Checked vs Unchecked Exceptions
+	~ the try, catch, finally paradigm
+	~ The keywords, throw and throws
+
+Readings: 
+	~ The official Java Tutorial on Exception handling
+		Here: https://docs.oracle.com/javase/tutorial/essential/exceptions/definition.html
+	~ Tutorial: https://www.tutorialspoint.com/java/java_exceptions.htm
+	~ Tutorial: https://www.geeksforgeeks.org/exceptions-in-java/
+
+Exception handling is a mechanism used to deal with runtime errors, known as exceptions, that may occur during the execution of a program. By handling exceptions, developers can write more robust code that allows flexible handling of unexpected conditions and prevents program crashes.
+
+Here are the key components and concepts of exception handling in Java:
+
+Exception Classes:
+================== 
+In Java, exceptions are represented by objects that belong to subclasses of the Throwable class. There are two main types of exceptions: checked exceptions and unchecked exceptions. Checked exceptions must be either caught and handled or declared in the method's throws clause, while unchecked exceptions (such as NullPointerException and ArrayIndexOutOfBoundsException) do not require explicit handling.
+
+try-catch Blocks:
+================= 
+Exception handling is typically done using try-catch blocks. A try block encloses the code that may potentially throw an exception, and one or more catch blocks follow the try block to catch and handle specific types of exceptions. If an exception occurs within the try block, the catch block corresponding to the exception's type is executed.
+
+try {
+    // Code that may throw 3 different types of exception
+    
+} catch (ExceptionType1 e1) {
+    // Exception handling for ExceptionType1
+    
+} catch (ExceptionType2 e2) {
+    // Exception handling for ExceptionType2
+    
+} catch (ExceptionType3 e3{
+    // Exception handling for ExceptionType3
+    
+}
+
+'throw' Keyword:
+================
+The throw keyword is used to explicitly throw an exception within a method or block of code. This allows developers to signal exceptional conditions programmatically.
+
+if (exceptional_condition_occurs) {
+    throw new CustomException("Error message");
+}
+
+'throws' Keyword:
+=================
+The throws keyword is used in method declarations to indicate that the method might throw one or more types of exceptions during its execution, but it does not handle those exceptions itself. Instead, it delegates the responsibility of handling exceptions to the caller of the method.
+
+public void myMethod() throws IOException, SQLException {
+    // Method implementation
+    // there will not be any try/catch in this method
+    // because we have chose to pass explicit handling to the caller
+}
+
+
+'finally' Block:
+================
+The finally block is an optional block that follows the catch blocks in a try-catch-finally construct. It is used to execute cleanup code that should always be executed, regardless of whether an exception occurs or not. This block is commonly used for releasing resources like database connections, file handles, etc.
+
+try {
+    // Code that may throw an exception
+    
+} catch (Exception e) {
+    // Exception handling
+    
+} finally {
+    // Cleanup code. Close resources
+    
+}
+
+Checked vs. Unchecked Exceptions:
+================================= 
+Checked exceptions are exceptions that must be either caught and handled or declared in the method's throws clause. 
+Unchecked exceptions are exceptions that do not require explicit handling or declaration.
+
+try-with-resources:
+===================
+Introduced in Java 7, the try-with-resources statement simplifies resource management by automatically closing resources that implement the AutoCloseable interface. Resources declared within the try-with-resources statement are closed automatically at the end of the statement, even if an exception occurs.
+
+try (FileInputStream fis = new FileInputStream("file.txt")) {
+    // Code that uses the FileInputStream
+    
+} catch (IOException e) {
+    // Exception handling
+    
+}
+
+
+
+

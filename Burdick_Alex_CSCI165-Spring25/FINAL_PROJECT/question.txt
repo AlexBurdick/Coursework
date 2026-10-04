@@ -1,0 +1,6 @@
+Final
+- Will there be questions about the labs? - No
+- How many questions from the first half of the class will there be? - None
+- Checked vs unchecked (diagram in lab doc is unclear) - Outlined in green
+- Qustion 5 on last quiz - Error because it's a checked exception but it's isn't try-caught or declared
+- Can you use throw in a method that does not have throws in the signature? - If you throw without catching, you need to inclued throws in the mothod signature
